@@ -1,0 +1,4 @@
+name: CreativeAdvancementCompletion
+version: 0.1
+main: org.imyvm.cac.CreativeAdvancementCompletion
+api-version: '1.21'
