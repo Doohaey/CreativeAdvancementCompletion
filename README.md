@@ -1,4 +1,4 @@
-# README
+# Minecraft Creative Mode Advancement Collection Server Game
 
 This project serves as a Minecraft paper server plugin that implementing a custom server game, 
 in which players collect as many advancements as possible via creative mode.
