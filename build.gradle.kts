@@ -55,9 +55,10 @@ tasks.processResources {
     }
 }
 
-tasks.shadowJar {
-    archiveClassifier.set("")
-    relocate("kotlin", "org.imyvm.cac.libs.kotlin")
+tasks.named("shadowJar") {
+    setProperty("archiveClassifier", "")
+    val relocateMethod = this.javaClass.getMethod("relocate", String::class.java, String::class.java)
+    relocateMethod.invoke(this, "kotlin", "org.imyvm.cac.libs.kotlin")
 }
 
 tasks.build {
