@@ -1,8 +1,7 @@
 package org.imyvm.cac
 
-import com.mojang.brigadier.Command
 import org.bukkit.plugin.java.JavaPlugin
-import org.imyvm.cac.commands.CommandManager
+import org.imyvm.cac.api.commands.CommandManager
 
 class CreativeAdvancementCompletion : JavaPlugin() {
     override fun onEnable() {

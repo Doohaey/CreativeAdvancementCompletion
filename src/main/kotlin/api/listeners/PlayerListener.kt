@@ -1,4 +1,4 @@
-package org.imyvm.cac.listeners
+package org.imyvm.cac.api.listeners
 
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerJoinEvent
