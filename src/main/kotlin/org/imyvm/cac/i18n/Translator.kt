@@ -9,12 +9,6 @@ import java.nio.charset.StandardCharsets
 import java.text.MessageFormat
 import java.util.Properties
 
-/**
- * Simple i18n translator modeled after the reference project:
- * - Loads `lang/<language>.properties` from plugin resources
- * - Formats via MessageFormat
- * - Parses legacy color codes (& / §) and supports '\n'
- */
 object Translator {
 
     private const val DEFAULT_LANGUAGE = "en_US"

@@ -5,12 +5,6 @@ import java.io.File
 import java.io.FileWriter
 import java.time.Instant
 
-/**
- * Manages the active/inactive status of the creative advancement event.
- *
- * - Status is stored in config.yml under "event.active".
- * - Every start/stop is appended as a JSON line to "event_log.jsonl" in the plugin data folder.
- */
 object EventStatus {
 
     private lateinit var plugin: JavaPlugin
@@ -25,10 +19,6 @@ object EventStatus {
 
     fun isActive(): Boolean = active
 
-    /**
-     * Sets the event to active/inactive.
-     * If the value changes, it is persisted and logged.
-     */
     fun setActive(value: Boolean, actor: String?) {
         if (!::plugin.isInitialized) return
         if (active == value) return
