@@ -3,8 +3,8 @@ package org.imyvm.cac.api.commands
 import com.mojang.brigadier.Command
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
-import org.imyvm.cac.event.EventStatus
-import org.imyvm.cac.i18n.Translator
+import org.imyvm.cac.domain.event.EventStatus
+import org.imyvm.cac.util.i18n.Translator
 
 object RootCommand {
     fun register(registrar: Commands) {

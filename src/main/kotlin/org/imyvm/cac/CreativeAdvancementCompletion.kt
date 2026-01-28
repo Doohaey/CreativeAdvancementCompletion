@@ -3,8 +3,8 @@ package org.imyvm.cac
 import org.bukkit.plugin.java.JavaPlugin
 import org.imyvm.cac.api.commands.CommandManager
 import org.imyvm.cac.api.listeners.PlayerListener
-import org.imyvm.cac.event.EventStatus
-import org.imyvm.cac.i18n.Translator
+import org.imyvm.cac.domain.event.EventStatus
+import org.imyvm.cac.util.i18n.Translator
 
 class CreativeAdvancementCompletion : JavaPlugin() {
     override fun onEnable() {

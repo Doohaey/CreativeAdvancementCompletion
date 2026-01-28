@@ -1,4 +1,4 @@
-package org.imyvm.cac.i18n
+package org.imyvm.cac.util.i18n
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer

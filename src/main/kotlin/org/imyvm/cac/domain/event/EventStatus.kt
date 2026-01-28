@@ -1,4 +1,4 @@
-package org.imyvm.cac.event
+package org.imyvm.cac.domain.event
 
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
