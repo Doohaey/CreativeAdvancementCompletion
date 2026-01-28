@@ -1,4 +1,4 @@
 name: ${pluginName}
 version: ${pluginVersion}
-main: org.imyvm.cac.org.imyvm.cac.CreativeAdvancementCompletion
+main: org.imyvm.cac.CreativeAdvancementCompletion
 api-version: '${paperVersion}'

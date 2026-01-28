@@ -1,2 +1,5 @@
 language: en_US
 
+event:
+  active: false
+
