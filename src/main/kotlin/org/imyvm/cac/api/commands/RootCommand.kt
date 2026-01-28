@@ -1,4 +1,4 @@
-package org.imyvm.cac.api.commands
+package org.imyvm.cac.org.imyvm.cac.api.commands
 
 import io.papermc.paper.command.brigadier.Commands
 
