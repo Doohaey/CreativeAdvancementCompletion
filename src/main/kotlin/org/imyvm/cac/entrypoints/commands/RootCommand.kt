@@ -1,4 +1,4 @@
-package org.imyvm.cac.api.commands
+package org.imyvm.cac.entrypoints.commands
 
 import com.mojang.brigadier.Command
 import io.papermc.paper.command.brigadier.CommandSourceStack
