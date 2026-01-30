@@ -1,7 +1,6 @@
 package org.imyvm.cac
 
 import org.bukkit.plugin.java.JavaPlugin
-import org.imyvm.cac.application.AdvancementProgressHandler
 import org.imyvm.cac.entrypoint.commands.CommandManager
 import org.imyvm.cac.entrypoint.listeners.PlayerListener
 import org.imyvm.cac.domain.event.EventStatus
