@@ -3,3 +3,5 @@ language: en_US
 event:
   active: false
 
+ticking:
+  interval: 20
