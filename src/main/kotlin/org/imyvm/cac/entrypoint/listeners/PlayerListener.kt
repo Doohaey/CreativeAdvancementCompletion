@@ -1,4 +1,4 @@
-package org.imyvm.cac.entrypoints.listeners
+package org.imyvm.cac.entrypoint.listeners
 
 import org.bukkit.event.Listener
 import org.bukkit.event.EventHandler
@@ -23,6 +23,6 @@ class PlayerListener(
         val player = event.player
         val advancement = event.advancement
 
-        AdvancementProgressHandler().validateAndProcess(player, advancement)
+        AdvancementProgressHandler.validateAndProcess(player, advancement)
     }
 }

@@ -6,12 +6,27 @@ import org.bukkit.advancement.Advancement
 import org.bukkit.entity.Player
 import org.imyvm.cac.domain.event.EventStatus
 
-class AdvancementProgressHandler {
+object AdvancementProgressHandler {
 
     fun validateAndProcess(player: Player, advancement: Advancement) {
         if (!shouldAllow(player)) {
             resetProgress(player, advancement)
             resetPlayerPhysicalStatus(player, advancement)
+        }
+    }
+
+    fun performDeepCleanup(player: Player) {
+        if (!shouldAllow(player)) {
+            val iterator = player.server.advancementIterator()
+            while (iterator.hasNext()) {
+                val advancement = iterator.next()
+                val progress = player.getAdvancementProgress(advancement)
+
+                if (progress.isDone) {
+                    resetProgress(player, advancement)
+                    resetPlayerPhysicalStatus(player, advancement)
+                }
+            }
         }
     }
 

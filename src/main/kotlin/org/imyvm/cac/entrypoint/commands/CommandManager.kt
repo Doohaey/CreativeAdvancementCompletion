@@ -1,4 +1,4 @@
-package org.imyvm.cac.entrypoints.commands
+package org.imyvm.cac.entrypoint.commands
 
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents
 import org.imyvm.cac.CreativeAdvancementCompletion
