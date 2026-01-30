@@ -6,12 +6,14 @@ import org.bukkit.entity.Player
 import org.imyvm.cac.domain.AdvancementItemRegistry
 import org.imyvm.cac.domain.event.EventStatus
 
-object AdvancementProgressHandler {
+object AdvancementProgressControlHandler {
 
     fun validateAndProcess(player: Player, advancement: Advancement) {
         if (!shouldAllow(player)) {
             resetProgress(player, advancement)
             resetPlayerPhysicalStatus(player, advancement)
+        } else {
+            EventDataHandler.recordAdvancement(player, advancement)
         }
     }
 

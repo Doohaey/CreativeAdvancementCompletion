@@ -4,7 +4,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerJoinEvent
-import org.imyvm.cac.application.AdvancementProgressHandler
+import org.imyvm.cac.application.AdvancementProgressControlHandler
 import org.imyvm.cac.CreativeAdvancementCompletion
 import org.imyvm.cac.util.i18n.Translator
 
@@ -23,6 +23,6 @@ class PlayerListener(
         val player = event.player
         val advancement = event.advancement
 
-        AdvancementProgressHandler.validateAndProcess(player, advancement)
+        AdvancementProgressControlHandler.validateAndProcess(player, advancement)
     }
 }
