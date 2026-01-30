@@ -32,13 +32,16 @@ class PlayerListener(
 
     private fun shouldAllowAdvancement(player: Player): Boolean {
         if (!EventStatus.isActive()) return false
-
         if (player.gameMode != GameMode.CREATIVE) return false
-
         return true
     }
 
     private fun revokeAdvancement(player: Player, advancement: Advancement) {
-        TODO()
+        val progress = player.getAdvancementProgress(advancement)
+        if (progress.isDone) {
+            for (criterion in progress.awardedCriteria) {
+                progress.revokeCriteria(criterion)
+            }
+        }
     }
 }
