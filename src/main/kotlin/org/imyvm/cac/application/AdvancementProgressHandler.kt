@@ -11,7 +11,7 @@ class AdvancementProgressHandler {
     fun validateAndProcess(player: Player, advancement: Advancement) {
         if (!shouldAllow(player)) {
             resetProgress(player, advancement)
-            removeItemIfNecessary(player, advancement)
+            resetPlayerPhysicalStatus(player, advancement)
         }
     }
 
@@ -22,6 +22,10 @@ class AdvancementProgressHandler {
     private fun resetProgress(player: Player, advancement: Advancement) {
         val progress = player.getAdvancementProgress(advancement)
         progress.awardedCriteria.forEach { progress.revokeCriteria(it) }
+    }
+
+    private fun resetPlayerPhysicalStatus(player: Player, advancement: Advancement) {
+        removeItemIfNecessary(player, advancement)
     }
 
     private fun removeItemIfNecessary(player: Player, advancement: Advancement) {
