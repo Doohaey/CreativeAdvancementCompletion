@@ -2,9 +2,7 @@
 
 This project serves as a Minecraft paper server plugin that implementing a custom server game, in which players collect as many advancements as possible via creative mode. This plugin records players' advancements and functions to display them, while also exerts some control over the game process.
 
-## Plugin Mechanics
-
-### Advancement Progress Control
+## Advancement Progress Control
 
 Once the plugin is enabled on the server, a player could only be granted advancements when they:
 - met the advancement criteria(progress) in Minecraft game play,
@@ -19,7 +17,7 @@ Once the plugin is enabled on the server, a player could only be granted advance
         And any progress towards an advancement they acquired will be reset immediately.
         Especially, if the progress is related with item possession, the items will be removed from their inventory.
 
-### Event Management
+## Event Management
 
 Advancements players acquired are recorded by the plugin and turned into game data.
 This plugin records or infers these data during the event period:
@@ -41,3 +39,15 @@ This plugin records or infers these data during the event period:
   - list of players who acquired each advancement and the timestamps when they acquired them,
   - total score rank,
   - list of players who acquired each advancement.
+
+## Game Display
+
+To maximize the atmosphere of the game, the plugin provides a display module which should shift players' perspective from "I'm just playing Minecraft" to "I'm in a high-stakes competitive race."
+
+### Scoreboard
+
+A scoreboard show the momentum of the game, including:
+- top 5 players with the highest total score,
+- player's own total score and rank, it will show at the bottom of the scoreboard player rank list if the player is not in the top 5, or show among competitors. This line should be highlighted.
+- score formula display, which is small footer indicating the current multipliers ($k=1, 3, 5$) to remind players that Goals and Challenges are the key to jumping ranks.
+The scoreboard will be updated by LazyTicker.
