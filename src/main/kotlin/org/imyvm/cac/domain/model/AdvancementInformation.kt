@@ -1,5 +1,6 @@
 package org.imyvm.cac.domain.model
 
+import org.bukkit.Bukkit
 import org.bukkit.advancement.Advancement
 import java.time.Instant
 import java.util.*
@@ -32,5 +33,19 @@ class PlayerProgress(val uuid: UUID) {
                 .filter { it.category.equals(category, ignoreCase = true) }
                 .sumOf { it.weight }
         }
+    }
+
+    fun getRank(allScores: List<Pair<String, Int>>): Int {
+        val sortedScores = allScores.sortedByDescending { it.second }
+        return sortedScores.indexOfFirst { it.first == Bukkit.getOfflinePlayer(uuid).name } + 1
+    }
+
+    fun getCategoryDetails(): Map<String, Int> {
+        return _acquired.groupBy { it.category }
+            .mapValues { (_, advancements) -> advancements.sumOf { it.weight } }
+    }
+
+    fun getChallenges(): List<String> {
+        return _acquired.filter { it.weight == 5 }.map { it.key }
     }
 }

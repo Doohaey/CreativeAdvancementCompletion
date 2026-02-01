@@ -1,9 +1,13 @@
 package org.imyvm.cac.entrypoint.commands
 
 import com.mojang.brigadier.Command
+import com.mojang.brigadier.arguments.StringArgumentType
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import io.papermc.paper.command.brigadier.Commands
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.imyvm.cac.domain.event.EventStatus
+import org.imyvm.cac.domain.repository.EventRepository
 import org.imyvm.cac.util.i18n.Translator
 
 object RootCommand {
@@ -27,6 +31,25 @@ object RootCommand {
                 Commands.literal("toggle")
                     .requires { it.sender.isOp || it.sender.hasPermission("cac.admin") }
                     .executes(::execToggle)
+            )
+            .then(
+                Commands.literal("me")
+                    .executes(::execMe)
+            )
+            .then(
+                Commands.literal("top")
+                    .executes(::execTop)
+            )
+            .then(
+                Commands.literal("check")
+                    .then(
+                        Commands.argument("player", StringArgumentType.string())
+                            .executes(::execCheck)
+                    )
+            )
+            .then(
+                Commands.literal("help")
+                    .executes(::execHelp)
             )
             .executes(::execStatus)
             .build()
@@ -61,6 +84,37 @@ object RootCommand {
         Translator.send(sender, key)
         return Command.SINGLE_SUCCESS
     }
+
+    private fun execMe(ctx: com.mojang.brigadier.context.CommandContext<CommandSourceStack>): Int {
+        val sender = ctx.source.sender
+        val player = sender as? Player ?: return Command.SINGLE_SUCCESS
+        val progress = EventRepository.getOrCreateProgress(player.uniqueId)
+        Translator.send(sender, "command.me", progress.getScore(), progress.getRank(EventRepository.getAllScores()), progress.getCategoryDetails())
+        return Command.SINGLE_SUCCESS
+    }
+
+    private fun execTop(ctx: com.mojang.brigadier.context.CommandContext<CommandSourceStack>): Int {
+        val sender = ctx.source.sender
+        val scores = EventRepository.getAllScores().sortedByDescending { it.second }
+        Translator.send(sender, "command.top", scores.joinToString("\n") { "${it.first}: ${it.second}" })
+        return Command.SINGLE_SUCCESS
+    }
+
+    private fun execCheck(ctx: com.mojang.brigadier.context.CommandContext<CommandSourceStack>): Int {
+        val sender = ctx.source.sender
+        val targetName = ctx.getArgument("player", String::class.java)
+        val target = Bukkit.getPlayer(targetName) ?: return Command.SINGLE_SUCCESS
+        val progress = EventRepository.getOrCreateProgress(target.uniqueId)
+        Translator.send(sender, "command.check", target.name, progress.getScore(), progress.getChallenges())
+        return Command.SINGLE_SUCCESS
+    }
+
+    private fun execHelp(ctx: com.mojang.brigadier.context.CommandContext<CommandSourceStack>): Int {
+        val sender = ctx.source.sender
+        Translator.send(sender, "command.help", "Advancement: 1", "Goal: 3", "Challenge: 5")
+        return Command.SINGLE_SUCCESS
+    }
+
 
     private fun sendStatus(sender: org.bukkit.command.CommandSender) {
         val key = if (EventStatus.isActive()) "command.status.active" else "command.status.inactive"
