@@ -63,3 +63,9 @@ A boss bar constitutes proximity display, showing the proximity to the Lead.
     - Red: more than 30% behind the leader.
 The boss bar will also be updated by LazyTicker.
 
+### The Action Bar
+
+Since the action bar is right above the inventory, it handles real-time updates on advancement acquisition.
+- When a player acquires a new advancement, the action bar displays the name of the advancement and the points earned from it, which lasts for 5 seconds.
+- Category Tracker: when a player acquires an advancement, the action bar also shows the number of advancements acquired in that category (Story, Nether, End, Adventure, Husbandry) out of the total number of advancements in that category.
+The action bar will be updated immediately when a player acquires an advancement.
