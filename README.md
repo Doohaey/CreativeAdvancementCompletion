@@ -2,7 +2,28 @@
 
 This project serves as a Minecraft paper server plugin that implementing a custom server game, in which players collect as many advancements as possible via creative mode. This plugin records players' advancements and functions to display them, while also exerts some control over the game process.
 
-## Advancement Progress Control
+## Environment Requirements
+
+- Java 21 or above
+- Gradle 8.12.1
+- Minecraft Paper server, version 1.21.11
+
+## Rules of the Game
+
+- Players are only allowed to gain advancements when they are in creative mode.
+- Players can only gain advancements when the event is active, which is controlled by server operators.
+- Players earn points based on the advancements they acquire:
+  - Advancement: 1 point
+  - Goal: 3 points
+  - Challenge: 5 points
+- No cheating or exploiting bugs to gain advancements is allowed.
+- No more rules. Any gameplay during the event in the event server is allowed, including:
+    - Griefing or trolling other players
+    - Stealing items from other players, etc.
+
+## Plugin Features
+
+### Advancement Progress Control
 
 Once the plugin is enabled on the server, a player could only be granted advancements when they:
 - met the advancement criteria(progress) in Minecraft game play,
@@ -17,7 +38,7 @@ Once the plugin is enabled on the server, a player could only be granted advance
         And any progress towards an advancement they acquired will be reset immediately.
         Especially, if the progress is related with item possession, the items will be removed from their inventory.
 
-## Event Management
+### Event Management
 
 Advancements players acquired are recorded by the plugin and turned into game data.
 This plugin records or infers these data during the event period:
@@ -40,11 +61,11 @@ This plugin records or infers these data during the event period:
   - total score rank,
   - list of players who acquired each advancement.
 
-## Game Display
+### Game Display
 
 To maximize the atmosphere of the game, the plugin provides a display module which should shift players' perspective from "I'm just playing Minecraft" to "I'm in a high-stakes competitive race."
 
-### Scoreboard
+#### Scoreboard
 
 A scoreboard show the momentum of the game, including:
 - top 5 players with the highest total score,
@@ -52,7 +73,7 @@ A scoreboard show the momentum of the game, including:
 - score formula display, which is small footer indicating the current multipliers ($k=1, 3, 5$) to remind players that Goals and Challenges are the key to jumping ranks.
 The scoreboard will be updated by LazyTicker.
 
-### Boss Bar
+#### Boss Bar
 
 A boss bar constitutes proximity display, showing the proximity to the Lead.
 - Text: telling the player who is currently leading, their score, and how many points the player is behind.
@@ -63,21 +84,21 @@ A boss bar constitutes proximity display, showing the proximity to the Lead.
     - Red: more than 30% behind the leader.
 The boss bar will also be updated by LazyTicker.
 
-### The Action Bar
+#### The Action Bar
 
 Since the action bar is right above the inventory, it handles real-time updates on advancement acquisition.
 - When a player acquires a new advancement, the action bar displays the name of the advancement and the points earned from it, which lasts for 5 seconds.
 - Category Tracker: when a player acquires an advancement, the action bar also shows the number of advancements acquired in that category (Story, Nether, End, Adventure, Husbandry) out of the total number of advancements in that category.
 The action bar will be updated immediately when a player acquires an advancement.
 
-### Chat Messaging
+#### Chat Messaging
 
 To enhance the competitive atmosphere, the plugin sends chat messages to all players when someone acquires a new advancement.
 - The chat message includes the player's name, the name of the advancement acquired, and the points.
     - When the advancement is a Challenge, the message is highlighted to emphasize its significance.
 - When the acquired advancement results in a change in the leaderboard (top 5), an additional chat message announces the new leaderboard standings.
 
-### Command Inquiry
+#### Command Inquiry
 
 Players can use commands to access detailed tactical data that is too dense for the constant HUD display.
 
