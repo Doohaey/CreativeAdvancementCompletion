@@ -62,6 +62,10 @@ object GameDisplayHandler {
 
             objective.getScore(legacySerializer.serialize(statsComp)).score = lineWeight--
 
+            objective.getScore("§7 ").score = lineWeight-- // Another unique spacer
+            val footerComp = Translator.tr("score.item") ?: Component.text("A:1 | G:3 | C:5")
+            objective.getScore(legacySerializer.serialize(footerComp)).score = lineWeight--
+
             player.scoreboard = scoreboard
         }
     }

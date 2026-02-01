@@ -125,6 +125,8 @@ object RootCommand {
             tableRows.append(legacy.serialize(totalRowComp)).append("\n")
         }
 
+        Translator.tr("score.item")?.let { tableRows.append(legacy.serialize(it)).append("\n") }
+
         Translator.send(sender, "command.me.report",
             player.name,
             progress.getRank(allScores),
