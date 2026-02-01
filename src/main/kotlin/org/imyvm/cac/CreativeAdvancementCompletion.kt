@@ -5,6 +5,7 @@ import org.imyvm.cac.entrypoint.commands.CommandManager
 import org.imyvm.cac.entrypoint.listeners.PlayerListener
 import org.imyvm.cac.domain.event.EventStatus
 import org.imyvm.cac.entrypoint.tasks.AdvancementTickerTask
+import org.imyvm.cac.entrypoint.tasks.GameDisplayTask
 import org.imyvm.cac.util.LazyTicker
 import org.imyvm.cac.util.i18n.Translator
 
@@ -27,6 +28,7 @@ class CreativeAdvancementCompletion : JavaPlugin() {
         CommandManager(this).setup()
         server.pluginManager.registerEvents(PlayerListener(this), this)
         AdvancementTickerTask().register()
+        GameDisplayTask().register()
     }
 
     override fun onDisable() {
