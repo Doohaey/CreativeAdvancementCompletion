@@ -5,3 +5,7 @@ event:
 
 ticking:
   interval: 20
+
+scoreboard:
+  player:
+    amount: 10

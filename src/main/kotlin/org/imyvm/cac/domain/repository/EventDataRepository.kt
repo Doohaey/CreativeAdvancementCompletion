@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.bukkit.Bukkit
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 import org.imyvm.cac.domain.model.AcquiredAdvancement
 import org.imyvm.cac.domain.model.PlayerProgress
@@ -22,8 +21,7 @@ object EventRepository {
 
     fun getAllScores(): List<Pair<String, Int>> {
         return playerStats.mapNotNull { (uuid, progress) ->
-            val name = Bukkit.getOfflinePlayer(uuid).name
-            if (name != null) name to progress.totalScore else null
+            (Bukkit.getPlayer(uuid)?.name ?: Bukkit.getOfflinePlayer(uuid).name ?: "Unknown") to progress.totalScore
         }
     }
 
@@ -31,7 +29,7 @@ object EventRepository {
         val file = File(plugin.dataFolder, "data.json")
         if (!plugin.dataFolder.exists()) plugin.dataFolder.mkdirs()
 
-        val exportData = playerStats.mapValues { it.value.acquired }
+        val exportData = playerStats.mapKeys { it.key.toString() }.mapValues { it.value.acquired }
 
         try {
             FileWriter(file).use { writer ->
@@ -48,10 +46,11 @@ object EventRepository {
 
         try {
             FileReader(file).use { reader ->
-                val type = object : TypeToken<Map<UUID, List<AcquiredAdvancement>>>() {}.type
-                val importedData: Map<UUID, List<AcquiredAdvancement>> = gson.fromJson(reader, type)
+                val type = object : TypeToken<Map<String, List<AcquiredAdvancement>>>() {}.type
+                val importedData: Map<String, List<AcquiredAdvancement>> = gson.fromJson(reader, type) ?: return
 
-                importedData.forEach { (uuid, history) ->
+                importedData.forEach { (uuidStr, history) ->
+                    val uuid = UUID.fromString(uuidStr)
                     getOrCreateProgress(uuid).loadHistory(history)
                 }
             }

@@ -34,13 +34,13 @@ class CreativeAdvancementCompletion : JavaPlugin() {
         CommandManager(this).setup()
         server.pluginManager.registerEvents(PlayerListener(this), this)
         AdvancementTickerTask().register()
-        GameDisplayTask().register()
+        GameDisplayTask().register(this)
     }
 
     override fun onDisable() {
         EventRepository.save(this)
-
         LazyTicker.stop()
+
         Translator.tr("plugin.disabled")?.let { logger.info(it.toString()) }
     }
 }
