@@ -30,7 +30,7 @@ object Translator {
     fun reload() {
         val plugin = this.plugin ?: return
         val configured = plugin.config.getString("language")?.trim().orEmpty()
-        val nextLanguage = if (configured.isNotBlank()) configured else DEFAULT_LANGUAGE
+        val nextLanguage = configured.ifBlank { DEFAULT_LANGUAGE }
 
         languageId = nextLanguage
         bundle = loadLanguage(nextLanguage) ?: loadLanguage(DEFAULT_LANGUAGE) ?: Properties()
@@ -53,13 +53,18 @@ object Translator {
     private fun loadLanguage(languageId: String): Properties? {
         val plugin = this.plugin ?: return null
         val path = "lang/$languageId.properties"
-        val stream = plugin.getResource(path) ?: return null
-        stream.use { input ->
+
+        val resourceStream = plugin.getResource(path) ?: return null
+
+        return try {
             val props = Properties()
-            InputStreamReader(input, StandardCharsets.UTF_8).use { reader ->
+            resourceStream.bufferedReader(StandardCharsets.UTF_8).use { reader ->
                 props.load(reader)
             }
-            return props
+            props
+        } catch (e: Exception) {
+            plugin.logger.severe("Failed to load language file $path: ${e.message}")
+            null
         }
     }
 }
