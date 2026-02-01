@@ -51,3 +51,15 @@ A scoreboard show the momentum of the game, including:
 - player's own total score and rank, it will show at the bottom of the scoreboard player rank list if the player is not in the top 5, or show among competitors. This line should be highlighted.
 - score formula display, which is small footer indicating the current multipliers ($k=1, 3, 5$) to remind players that Goals and Challenges are the key to jumping ranks.
 The scoreboard will be updated by LazyTicker.
+
+### Boss Bar
+
+A boss bar constitutes proximity display, showing the proximity to the Lead.
+- Text: telling the player who is currently leading, their score, and how many points the player is behind.
+- Progress Bar: showing the player's progress towards the leader as a percentage.
+- Color: changing color based on proximity to the leader.
+    - Green: within 10% of the leader's score.
+    - Yellow: within 30% of the leader's score.
+    - Red: more than 30% behind the leader.
+The boss bar will also be updated by LazyTicker.
+
