@@ -68,4 +68,15 @@ object GameDisplayHandler {
             player.showBossBar(bossBar)
         }
     }
+
+    fun showActionBar(player: Player, advancementName: String, points: Int, category: String, total: Int) {
+        val message = Translator.tr("actionbar.advancement", advancementName, points, category, total)
+        player.sendActionBar(message ?: Component.text("Advancement: $advancementName (+$points) | $category: $total"))
+    }
+
+    fun sendChatMessage(player: Player, advancementName: String, points: Int, isChallenge: Boolean) {
+        val messageKey = if (isChallenge) "chat.challenge" else "chat.advancement"
+        val message = Translator.tr(messageKey, player.name, advancementName, points)
+        Bukkit.getOnlinePlayers().forEach { it.sendMessage(message ?: Component.text("${player.name} earned $advancementName (+$points)")) }
+    }
 }

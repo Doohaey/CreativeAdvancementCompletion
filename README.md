@@ -71,6 +71,7 @@ Since the action bar is right above the inventory, it handles real-time updates 
 The action bar will be updated immediately when a player acquires an advancement.
 
 ### Chat Messaging
+
 To enhance the competitive atmosphere, the plugin sends chat messages to all players when someone acquires a new advancement.
 - The chat message includes the player's name, the name of the advancement acquired, and the points.
     - When the advancement is a Challenge, the message is highlighted to emphasize its significance.

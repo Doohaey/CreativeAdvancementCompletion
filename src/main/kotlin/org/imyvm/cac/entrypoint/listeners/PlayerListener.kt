@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerAdvancementDoneEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.imyvm.cac.application.AdvancementProgressControlHandler
 import org.imyvm.cac.CreativeAdvancementCompletion
+import org.imyvm.cac.application.EventDataHandler
 import org.imyvm.cac.util.i18n.Translator
 
 class PlayerListener(

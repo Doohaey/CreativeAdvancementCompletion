@@ -12,7 +12,6 @@ object EventDataHandler {
         val key = advancement.key.toString()
 
         val category = key.substringAfter(":").substringBefore("/")
-
         val weight = when (display.frame()) {
             AdvancementDisplay.Frame.TASK -> 1
             AdvancementDisplay.Frame.GOAL -> 3
@@ -21,5 +20,11 @@ object EventDataHandler {
 
         val progress = EventRepository.getOrCreateProgress(player.uniqueId)
         progress.add(advancement, category, weight)
+
+        val total = progress.getScore(category)
+        val isChallenge = display.frame() == AdvancementDisplay.Frame.CHALLENGE
+
+        GameDisplayHandler.showActionBar(player, key, weight, category, total)
+        GameDisplayHandler.sendChatMessage(player, key, weight, isChallenge)
     }
 }
