@@ -75,3 +75,19 @@ To enhance the competitive atmosphere, the plugin sends chat messages to all pla
 - The chat message includes the player's name, the name of the advancement acquired, and the points.
     - When the advancement is a Challenge, the message is highlighted to emphasize its significance.
 - When the acquired advancement results in a change in the leaderboard (top 5), an additional chat message announces the new leaderboard standings.
+
+### Command Inquiry
+
+Players can use commands to access detailed tactical data that is too dense for the constant HUD display.
+
+- `/cac me`: displays a comprehensive summary of the player's personal game state.
+    - Current total score and global rank.
+    - Detailed breakdown of advancements acquired in each category (Story, Nether, End, Adventure, Husbandry).
+    - Recent acquisition history with timestamps.
+- `/cac top`: displays the full leaderboard standings.
+    - Shows the complete list of all players and their scores in chat for a full view of the competition.
+- `/cac check [player]`: allows for scouting a competitor's progress.
+    - Shows a target player's rank and their total score.
+    - Highlights which specific Challenges the competitor has already completed.
+- `/cac help`: provides a quick reference for the game's scoring rules.
+    - Lists the current point weights for Advancements, Goals, and Challenges.
