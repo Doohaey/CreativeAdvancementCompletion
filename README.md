@@ -69,3 +69,9 @@ Since the action bar is right above the inventory, it handles real-time updates 
 - When a player acquires a new advancement, the action bar displays the name of the advancement and the points earned from it, which lasts for 5 seconds.
 - Category Tracker: when a player acquires an advancement, the action bar also shows the number of advancements acquired in that category (Story, Nether, End, Adventure, Husbandry) out of the total number of advancements in that category.
 The action bar will be updated immediately when a player acquires an advancement.
+
+### Chat Messaging
+To enhance the competitive atmosphere, the plugin sends chat messages to all players when someone acquires a new advancement.
+- The chat message includes the player's name, the name of the advancement acquired, and the points.
+    - When the advancement is a Challenge, the message is highlighted to emphasize its significance.
+- When the acquired advancement results in a change in the leaderboard (top 5), an additional chat message announces the new leaderboard standings.
