@@ -1,11 +1,21 @@
 package org.imyvm.cac.domain.repository
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import org.bukkit.Bukkit
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.plugin.java.JavaPlugin
+import org.imyvm.cac.domain.model.AcquiredAdvancement
 import org.imyvm.cac.domain.model.PlayerProgress
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
 import java.util.UUID
 
 object EventRepository {
     private val playerStats = mutableMapOf<UUID, PlayerProgress>()
+    private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
     fun getOrCreateProgress(uuid: UUID): PlayerProgress =
         playerStats.getOrPut(uuid) { PlayerProgress(uuid) }
@@ -14,6 +24,39 @@ object EventRepository {
         return playerStats.mapNotNull { (uuid, progress) ->
             val name = Bukkit.getOfflinePlayer(uuid).name
             if (name != null) name to progress.totalScore else null
+        }
+    }
+
+    fun save(plugin: JavaPlugin) {
+        val file = File(plugin.dataFolder, "data.json")
+        if (!plugin.dataFolder.exists()) plugin.dataFolder.mkdirs()
+
+        val exportData = playerStats.mapValues { it.value.acquired }
+
+        try {
+            FileWriter(file).use { writer ->
+                gson.toJson(exportData, writer)
+            }
+        } catch (e: Exception) {
+            plugin.logger.severe("Could not save data.json: ${e.message}")
+        }
+    }
+
+    fun load(plugin: JavaPlugin) {
+        val file = File(plugin.dataFolder, "data.json")
+        if (!file.exists()) return
+
+        try {
+            FileReader(file).use { reader ->
+                val type = object : TypeToken<Map<UUID, List<AcquiredAdvancement>>>() {}.type
+                val importedData: Map<UUID, List<AcquiredAdvancement>> = gson.fromJson(reader, type)
+
+                importedData.forEach { (uuid, history) ->
+                    getOrCreateProgress(uuid).loadHistory(history)
+                }
+            }
+        } catch (e: Exception) {
+            plugin.logger.severe("Could not load data.json: ${e.message}")
         }
     }
 }

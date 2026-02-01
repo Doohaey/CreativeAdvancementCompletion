@@ -9,7 +9,7 @@ data class AcquiredAdvancement(
     val key: String,
     val category: String,
     val weight: Int,
-    val timestamp: Instant = Instant.now()
+    val timestamp: String = Instant.now().toString()
 )
 
 class PlayerProgress(val uuid: UUID) {
@@ -18,6 +18,11 @@ class PlayerProgress(val uuid: UUID) {
 
     val totalScore: Int
         get() = _acquired.sumOf { it.weight }
+
+    fun loadHistory(history: List<AcquiredAdvancement>) {
+        _acquired.clear()
+        _acquired.addAll(history)
+    }
 
     fun add(advancement: Advancement, category: String, weight: Int) {
         if (_acquired.none { it.key == advancement.key.toString() }) {
