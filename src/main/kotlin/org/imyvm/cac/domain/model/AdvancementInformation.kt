@@ -40,6 +40,14 @@ class PlayerProgress(val uuid: UUID) {
         }
     }
 
+    fun getCountByType(weight: Int): Int = _acquired.count { it.weight == weight }
+
+    fun getCountByCategory(category: String): Int =
+        _acquired.count { it.category.equals(category, ignoreCase = true) }
+
+    fun getChallengesList(): List<String> =
+        _acquired.filter { it.weight == 5 }.map { it.key }
+
     fun getRank(allScores: List<Pair<String, Int>>): Int {
         val sortedScores = allScores.sortedByDescending { it.second }
         return sortedScores.indexOfFirst { it.first == Bukkit.getOfflinePlayer(uuid).name } + 1
