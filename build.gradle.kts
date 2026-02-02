@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     kotlin("jvm")
     id("com.gradleup.shadow")
@@ -55,10 +57,14 @@ tasks.processResources {
     }
 }
 
-tasks.named("shadowJar") {
-    setProperty("archiveClassifier", "")
-    val relocateMethod = this.javaClass.getMethod("relocate", String::class.java, String::class.java)
-    relocateMethod.invoke(this, "kotlin", "org.imyvm.cac.libs.kotlin")
+tasks.jar {
+    enabled = false
+}
+
+tasks.named<ShadowJar>("shadowJar") {
+    archiveClassifier.set("")
+    relocate("kotlin", "org.imyvm.cac.libs.kotlin")
+    mergeServiceFiles()
 }
 
 tasks.build {
