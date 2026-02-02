@@ -21,7 +21,7 @@ object EventDataHandler {
         val progress = EventRepository.getOrCreateProgress(player.uniqueId)
         progress.add(advancement, category, weight)
 
-        val total = progress.getScore(category)
+        val total = progress.getScoreValid(category)
         val isChallenge = display.frame() == AdvancementDisplay.Frame.CHALLENGE
 
         GameDisplayHandler.showActionBar(player, key, weight, category, total)

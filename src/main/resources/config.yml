@@ -2,6 +2,7 @@ language: zh_CN
 
 event:
   active: false
+  session_id: 150
 
 ticking:
   interval: 20

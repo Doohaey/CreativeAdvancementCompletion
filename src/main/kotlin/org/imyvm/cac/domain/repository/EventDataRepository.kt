@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import org.imyvm.cac.domain.event.EventStatus
 import org.imyvm.cac.domain.model.AcquiredAdvancement
 import org.imyvm.cac.domain.model.PlayerProgress
 import java.io.File
@@ -17,11 +18,17 @@ object EventRepository {
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
 
     fun getOrCreateProgress(uuid: UUID): PlayerProgress =
-        playerStats.getOrPut(uuid) { PlayerProgress(uuid) }
+        playerStats.getOrPut(uuid) {
+            PlayerProgress(uuid)
+        }
 
     fun getAllScores(): List<Pair<String, Int>> {
         return playerStats.mapNotNull { (uuid, progress) ->
-            (Bukkit.getPlayer(uuid)?.name ?: Bukkit.getOfflinePlayer(uuid).name ?: "Unknown") to progress.totalScore
+            val score = progress.getScoreValid()
+            if (score > 0 || EventStatus.isActive()) {
+                val name = Bukkit.getPlayer(uuid)?.name ?: Bukkit.getOfflinePlayer(uuid).name ?: "Unknown"
+                name to score
+            } else null
         }
     }
 
@@ -29,7 +36,7 @@ object EventRepository {
         val file = File(plugin.dataFolder, "data.json")
         if (!plugin.dataFolder.exists()) plugin.dataFolder.mkdirs()
 
-        val exportData = playerStats.mapKeys { it.key.toString() }.mapValues { it.value.acquired }
+        val exportData = playerStats.mapKeys { it.key.toString() }.mapValues { it.value.acquiredValid }
 
         try {
             FileWriter(file).use { writer ->

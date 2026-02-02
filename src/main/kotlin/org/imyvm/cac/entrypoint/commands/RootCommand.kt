@@ -89,6 +89,12 @@ object RootCommand {
     private fun execMe(ctx: CommandContext<CommandSourceStack>): Int {
         val sender = ctx.source.sender
         val player = sender as? Player ?: return Command.SINGLE_SUCCESS
+
+        if (!EventStatus.isActive()) {
+            Translator.send(sender, "command.status.inactive") // Reuse existing key
+            return Command.SINGLE_SUCCESS
+        }
+
         val progress = EventRepository.getOrCreateProgress(player.uniqueId)
         val allScores = EventRepository.getAllScores()
 
@@ -101,10 +107,10 @@ object RootCommand {
         var totalC = 0
 
         categories.forEach { cat ->
-            val a = progress.acquired.count { it.category == cat && it.weight == 1 }
-            val g = progress.acquired.count { it.category == cat && it.weight == 3 }
-            val c = progress.acquired.count { it.category == cat && it.weight == 5 }
-            val score = progress.getScore(cat)
+            val a = progress.acquiredValid.count { it.category == cat && it.weight == 1 }
+            val g = progress.acquiredValid.count { it.category == cat && it.weight == 3 }
+            val c = progress.acquiredValid.count { it.category == cat && it.weight == 5 }
+            val score = progress.getScoreValid(cat)
 
             totalA += a
             totalG += g
@@ -119,7 +125,7 @@ object RootCommand {
         }
 
         val totalRowComp = Translator.tr("command.me.total_row",
-            "Total".padEnd(10), totalA, totalG, totalC, progress.totalScore)
+            "Total".padEnd(10), totalA, totalG, totalC, progress.totalScoreValid)
 
         if (totalRowComp != null) {
             tableRows.append(legacy.serialize(totalRowComp)).append("\n")
@@ -131,7 +137,7 @@ object RootCommand {
             player.name,
             progress.getRank(allScores),
             tableRows.toString(),
-            progress.totalScore
+            progress.totalScoreValid
         )
         return Command.SINGLE_SUCCESS
     }
@@ -159,7 +165,7 @@ object RootCommand {
             it.replace("minecraft:", "").substringAfter("/")
         }.ifEmpty { "None" }
 
-        Translator.send(sender, "command.check.report", target.name, progress.totalScore, challengeKeys)
+        Translator.send(sender, "command.check.report", target.name, progress.totalScoreValid, challengeKeys)
         return Command.SINGLE_SUCCESS
     }
 

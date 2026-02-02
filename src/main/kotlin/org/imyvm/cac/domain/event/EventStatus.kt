@@ -11,10 +11,13 @@ object EventStatus {
 
     @Volatile
     private var active: Boolean = false
+    var currentSessionId: String? = null
+        private set
 
     fun init(plugin: JavaPlugin) {
         this.plugin = plugin
         this.active = plugin.config.getBoolean("event.active", false)
+        this.currentSessionId = plugin.config.getString("event.session_id")
     }
 
     fun isActive(): Boolean = active
@@ -24,6 +27,12 @@ object EventStatus {
         if (active == value) return
 
         active = value
+        if (active) {
+            currentSessionId = "session_${System.currentTimeMillis()}"
+            plugin.config.set("event.session_id", currentSessionId)
+        } else {
+            currentSessionId = null
+        }
 
         plugin.config.set("event.active", active)
         plugin.saveConfig()

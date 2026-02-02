@@ -3,7 +3,6 @@ package org.imyvm.cac.application
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacy
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -57,8 +56,8 @@ object GameDisplayHandler {
             val rankIndex = allScores.indexOfFirst { it.first == player.name }
             val rank = if (rankIndex == -1) 1 else rankIndex + 1
 
-            val statsComp = Translator.tr("scoreboard.player", progress.totalScore, rank)
-                ?: Component.text("Score: ${progress.totalScore}")
+            val statsComp = Translator.tr("scoreboard.player", progress.totalScoreValid, rank)
+                ?: Component.text("Score: ${progress.totalScoreValid}")
 
             objective.getScore(legacySerializer.serialize(statsComp)).score = lineWeight--
 
@@ -72,7 +71,7 @@ object GameDisplayHandler {
 
     fun updateBossBars() {
         val players = Bukkit.getOnlinePlayers()
-        val scores = players.map { it to EventRepository.getOrCreateProgress(it.uniqueId).getScore() }
+        val scores = players.map { it to EventRepository.getOrCreateProgress(it.uniqueId).getScoreValid() }
             .sortedByDescending { it.second }
 
         val leader = scores.firstOrNull() ?: return

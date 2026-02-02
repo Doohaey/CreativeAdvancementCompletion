@@ -2,6 +2,7 @@ package org.imyvm.cac.domain.model
 
 import org.bukkit.Bukkit
 import org.bukkit.advancement.Advancement
+import org.imyvm.cac.domain.event.EventStatus
 import java.time.Instant
 import java.util.*
 
@@ -9,44 +10,63 @@ data class AcquiredAdvancement(
     val key: String,
     val category: String,
     val weight: Int,
-    val timestamp: String = Instant.now().toString()
+    val timestamp: String = Instant.now().toString(),
+    val sessionId: String? = null,
 )
 
-class PlayerProgress(val uuid: UUID) {
-    private val _acquired = mutableListOf<AcquiredAdvancement>()
-    val acquired: List<AcquiredAdvancement> get() = _acquired
+class PlayerProgress(
+    val uuid: UUID
+) {
+    private val acquiredTotal = mutableListOf<AcquiredAdvancement>()
+    val acquiredValid: List<AcquiredAdvancement>
+        get() = acquiredTotal.filter {
+            it.sessionId == EventStatus.currentSessionId
+        }
 
-    val totalScore: Int
-        get() = _acquired.sumOf { it.weight }
+    val totalScoreValid: Int
+        get() = acquiredValid.sumOf { it.weight }
 
     fun loadHistory(history: List<AcquiredAdvancement>) {
-        _acquired.clear()
-        _acquired.addAll(history)
+        acquiredTotal.clear()
+        acquiredTotal.addAll(history)
     }
 
-    fun add(advancement: Advancement, category: String, weight: Int) {
-        if (_acquired.none { it.key == advancement.key.toString() }) {
-            _acquired.add(AcquiredAdvancement(advancement.key.toString(), category, weight))
+    fun add(
+        advancement: Advancement,
+        category: String,
+        weight: Int
+    ) {
+        if (acquiredTotal.none {
+            it.key == advancement.key.toString()
+                    && it.sessionId == EventStatus.currentSessionId
+        }) {
+            acquiredTotal.add(AcquiredAdvancement(
+                advancement.key.toString(),
+                category,
+                weight,
+                Instant.now().toString(),
+                EventStatus.currentSessionId,
+            ))
         }
     }
 
-    fun getScore(category: String? = null): Int {
+    fun getScoreValid(category: String? = null): Int {
         return if (category == null) {
-            totalScore
+            totalScoreValid
         } else {
-            _acquired
+            acquiredValid
                 .filter { it.category.equals(category, ignoreCase = true) }
                 .sumOf { it.weight }
         }
     }
 
-    fun getCountByType(weight: Int): Int = _acquired.count { it.weight == weight }
+    fun getCountByType(weight: Int): Int = acquiredTotal.count { it.weight == weight }
 
     fun getCountByCategory(category: String): Int =
-        _acquired.count { it.category.equals(category, ignoreCase = true) }
+        acquiredTotal.count { it.category.equals(category, ignoreCase = true) }
 
     fun getChallengesList(): List<String> =
-        _acquired.filter { it.weight == 5 }.map { it.key }
+        acquiredTotal.filter { it.weight == 5 }.map { it.key }
 
     fun getRank(allScores: List<Pair<String, Int>>): Int {
         val sortedScores = allScores.sortedByDescending { it.second }
@@ -54,11 +74,11 @@ class PlayerProgress(val uuid: UUID) {
     }
 
     fun getCategoryDetails(): Map<String, Int> {
-        return _acquired.groupBy { it.category }
+        return acquiredTotal.groupBy { it.category }
             .mapValues { (_, advancements) -> advancements.sumOf { it.weight } }
     }
 
     fun getChallenges(): List<String> {
-        return _acquired.filter { it.weight == 5 }.map { it.key }
+        return acquiredTotal.filter { it.weight == 5 }.map { it.key }
     }
 }
