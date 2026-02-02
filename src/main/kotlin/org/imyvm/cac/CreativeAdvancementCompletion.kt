@@ -26,8 +26,8 @@ class CreativeAdvancementCompletion : JavaPlugin() {
     private fun setupCoreSystems() {
         saveDefaultConfig()
         Translator.init(this)
-        EventStatus.init(this)
         LazyTicker.start(this, config.getLong("ticking.interval", 20L))
+        EventStatus.init(this)
     }
 
     private fun setupEntrypoint() {

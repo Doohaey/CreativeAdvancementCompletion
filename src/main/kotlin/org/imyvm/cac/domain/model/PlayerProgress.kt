@@ -4,15 +4,7 @@ import org.bukkit.Bukkit
 import org.bukkit.advancement.Advancement
 import org.imyvm.cac.domain.event.EventStatus
 import java.time.Instant
-import java.util.*
-
-data class AcquiredAdvancement(
-    val key: String,
-    val category: String,
-    val weight: Int,
-    val timestamp: String = Instant.now().toString(),
-    val sessionId: String? = null,
-)
+import java.util.UUID
 
 class PlayerProgress(
     val uuid: UUID
@@ -37,16 +29,18 @@ class PlayerProgress(
         weight: Int
     ) {
         if (acquiredTotal.none {
-            it.key == advancement.key.toString()
-                    && it.sessionId == EventStatus.currentSessionId
-        }) {
-            acquiredTotal.add(AcquiredAdvancement(
-                advancement.key.toString(),
-                category,
-                weight,
-                Instant.now().toString(),
-                EventStatus.currentSessionId,
-            ))
+                it.key == advancement.key.toString()
+                        && it.sessionId == EventStatus.currentSessionId
+            }) {
+            acquiredTotal.add(
+                AcquiredAdvancement(
+                    advancement.key.toString(),
+                    category,
+                    weight,
+                    Instant.now().toString(),
+                    EventStatus.currentSessionId,
+                )
+            )
         }
     }
 

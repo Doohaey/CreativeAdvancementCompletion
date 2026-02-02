@@ -38,7 +38,11 @@ Once the plugin is enabled on the server, a player could only be granted advance
         And any progress towards an advancement they acquired will be reset immediately.
         Especially, if the progress is related with item possession, the items will be removed from their inventory.
 
+Technically, each period during the start and the stop commands is defined as a "session" named by "session_" + timestamp of the start command.
+
 ### Event Management
+
+As mentioned above, server operators can control the event status via commands. Only game data during the active period will be recorded. And only those which generated during the same session will be compared together in the leaderboard.
 
 Advancements players acquired are recorded by the plugin and turned into game data.
 This plugin records or infers these data during the event period:
