@@ -1,0 +1,63 @@
+### macOS ###
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+### Linux ###
+*~
+.directory
+
+### Editors & IDEs ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.iml
+*.iws
+*.ipr
+
+### Temp & Backup ###
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.log
+
+### OS Caches ###
+.cache/
+__pycache__/
+*.py[cod]
+
+### Dependencies (just in case) ###
+node_modules/
+vendor/
+
+### Environment ###
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+env/
+
+### Archives ###
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+### review drafts ###
+reviews/
